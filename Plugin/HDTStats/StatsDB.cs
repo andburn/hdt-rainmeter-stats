@@ -132,7 +132,7 @@ namespace me.andburn.rainmeter.HDTStats
 			var lastPlayedDeck = new DeckRecord();
 			if(records.ContainsKey(lastPlayed))
 				lastPlayedDeck = records[lastPlayed];
-			return new SeasonSummary(TotalLost, TotalWon, latest.Rank, lastPlayedDeck);
+			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, lastPlayedDeck);
 		}
 
 		private static bool IsOnThisServer(GameStats g)
