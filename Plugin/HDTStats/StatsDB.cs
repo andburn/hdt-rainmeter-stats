@@ -17,8 +17,12 @@ namespace me.andburn.rainmeter.HDTStats
 		private static Region Server;
 		private static int TotalWon;
 		private static int TotalLost;
+		private static int WonToday;
+		private static int LostToday;
 		private static DateTime FirstOfMonth;
 		private static DateTime LastOfMonth;
+		private static DateTime StartOfToday;
+		private static DateTime EndOfToday;
 		private static DateTime LastRun;
 
 		public static SeasonSummary RankedSummary(string path, string server) {
@@ -51,6 +55,8 @@ namespace me.andburn.rainmeter.HDTStats
 					Server = Region.EU; break;				
 				case "asia": 
 					Server = Region.ASIA; break;
+				case "china":
+					Server = Region.CHINA; break;
 				case "us":
 				default:
 					Server = Region.US; break;
@@ -73,10 +79,15 @@ namespace me.andburn.rainmeter.HDTStats
 			var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 			FirstOfMonth = new DateTime(now.Year, now.Month, 1);
 			LastOfMonth = new DateTime(now.Year, now.Month, daysInMonth);
+			StartOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0); // TODO: check this is today!
+			EndOfToday = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
 			TotalWon = 0;
 			TotalLost = 0;
+			WonToday = 0;
+			LostToday = 0;
 		}
 
+		// TODO: is this used, enforces delay so db file isn't continally in use
 		public static bool IntervalHasLapsed()
 		{
 			if(LastRun == null)
@@ -108,10 +119,8 @@ namespace me.andburn.rainmeter.HDTStats
 
 		private static SeasonSummary Summarize(List<DeckStats> stats)
 		{
-			Dictionary<Guid, DeckRecord> records = new Dictionary<Guid, DeckRecord>();
 			GameStats latest = new GameStats();
 			latest.StartTime = DateTime.Now.AddMonths(-1);
-			Guid lastPlayed = Guid.Empty;
 
 			foreach(var deck in stats)
 			{
@@ -119,20 +128,16 @@ namespace me.andburn.rainmeter.HDTStats
 				{
 					if(IsRanked(game) && IsThisSeason(game) && IsOnThisServer(game))
 					{
-						AddGame(records, deck, game);
+						AddGame(game, IsToday(game));
 						if(IsLatest(latest, game))
 						{
 							latest = game;
-							lastPlayed = deck.DeckId;
 						}
 					}
 				}
 			}
 
-			var lastPlayedDeck = new DeckRecord();
-			if(records.ContainsKey(lastPlayed))
-				lastPlayedDeck = records[lastPlayed];
-			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, lastPlayedDeck);
+			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, WonToday, LostToday);
 		}
 
 		private static bool IsOnThisServer(GameStats g)
@@ -150,68 +155,31 @@ namespace me.andburn.rainmeter.HDTStats
 			return g.StartTime >= FirstOfMonth && g.StartTime <= LastOfMonth;
 		}
 
+		private static bool IsToday(GameStats g)
+		{
+			return g.StartTime >= StartOfToday && g.StartTime <= EndOfToday;
+		}
+
 		private static bool IsLatest(GameStats latest, GameStats game)
 		{
 			return game.StartTime >= latest.StartTime;
 		}
 
-		private static void AddGame(Dictionary<Guid, DeckRecord> records, DeckStats deck, GameStats game)
+		private static void AddGame(GameStats game, bool today = false)
 		{
-			var deckId = deck.DeckId;
-			if(!records.ContainsKey(deckId))
-			{
-				records[deckId] = new DeckRecord(deckId);
-				// TODO: does deck name change or in games?
-				records[deckId].Name = deck.Name;
-				records[deckId].HeroClass = HeroNum(game.PlayerHero);
-			}
-
 			if(game.Result == GameResult.Win)
 			{
-				records[deckId].Won++;
 				TotalWon++;
+				if(today)
+					WonToday++;
 			}
 			else if(game.Result == GameResult.Loss)
 			{
-				records[deckId].Lost++;
 				TotalLost++;
+				if(today)
+					LostToday++;
 			}
 			// ignore Draw and "other" results
-		}
-
-		// convert hero names into numbers, easier for measures
-		private static int HeroNum(string hero)
-		{
-			int num = 0;
-			switch(hero.ToLowerInvariant())
-			{
-				case "warrior": num = 1; break;
-				case "shaman": num = 2; break;
-				case "rogue": num = 3; break;
-				case "paladin": num = 4; break;
-				case "hunter": num = 5; break;
-				case "druid": num = 6; break;
-				case "warlock": num = 7; break;
-				case "mage": num = 8; break;
-				case "priest": num = 9; break;
-			}
-			return num;
-		}
-
-		// Replaced this with Last Played instead.
-		// Compares decks to see which has greatest total so far
-		private static Guid MostPlayed(Dictionary<Guid, DeckRecord> records, Guid most, Guid deck)
-		{
-			if(most == Guid.Empty || !records.ContainsKey(most))
-				return deck;
-
-			var mostTotal = records[most].Won + records[most].Lost;
-			var deckTotal = 0;
-			if (records.ContainsKey(deck))
-			{
-				deckTotal = records[deck].Won + records[deck].Lost;
-			}
-			return deckTotal >= mostTotal ? deck : most;
 		}
 	}		
 }

@@ -13,9 +13,8 @@ namespace me.andburn.rainmeter.HDTStats
 			Rank,
 			Won,
 			Lost,
-			DeckClass,
-			DeckWon,
-			DeckLost
+			WonToday,
+			LostToday
 		}
 
 		internal MeasureType Type = MeasureType.Rank;
@@ -40,14 +39,11 @@ namespace me.andburn.rainmeter.HDTStats
 			case "lost":
 				Type = MeasureType.Lost;
 				break;
-			case "deckclass":
-				Type = MeasureType.DeckClass;
+			case "wontoday":
+				Type = MeasureType.WonToday;
 				break;
-			case "deckwon":
-				Type = MeasureType.DeckWon;
-				break;
-			case "decklost":
-				Type = MeasureType.DeckLost;
+			case "losttoday":
+				Type = MeasureType.LostToday;
 				break;
 			default:
 				API.Log(API.LogType.Error, "Type=" + type + " is not valid");
@@ -114,12 +110,10 @@ namespace me.andburn.rainmeter.HDTStats
 					return summary.Won;
 				case MeasureType.Lost:
 					return summary.Lost;
-				case MeasureType.DeckWon:
-					return summary.LastPlayedDeck.Won;
-				case MeasureType.DeckLost:
-					return summary.LastPlayedDeck.Lost;
-				case MeasureType.DeckClass:
-					return summary.LastPlayedDeck.HeroClass;
+				case MeasureType.WonToday:
+					return summary.WonToday;
+				case MeasureType.LostToday:
+					return summary.LostToday;
 				default:
 					return 0.0;
 			}

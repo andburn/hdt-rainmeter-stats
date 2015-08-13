@@ -29,7 +29,8 @@ namespace me.andburn.rainmeter.HDTStats.Enums
 		UNKNOWN,
 		US,
 		EU,
-		ASIA
+		ASIA,
+		CHINA
 	}
 
 }

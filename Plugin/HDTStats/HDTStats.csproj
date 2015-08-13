@@ -79,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="DeckRecord.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="HDTStats.cs" />
     <Compile Include="$(SolutionDir)\API\RainmeterAPI.cs" />
