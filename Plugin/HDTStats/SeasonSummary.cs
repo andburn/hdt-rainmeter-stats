@@ -14,7 +14,6 @@ namespace me.andburn.rainmeter.HDTStats
 
 		public SeasonSummary()
 		{
-			Rainmeter.API.Log(Rainmeter.API.LogType.Notice, "Summary()");
 			Won = 0;
 			Lost = 0;
 			WonToday = 0;
@@ -24,7 +23,6 @@ namespace me.andburn.rainmeter.HDTStats
 
 		public SeasonSummary(int won, int lost, int rank, int wonToday, int lostToday)
 		{
-			Rainmeter.API.Log(Rainmeter.API.LogType.Notice, "Summary(...)");
 			Won = won;
 			Lost = lost;
 			Rank = rank;

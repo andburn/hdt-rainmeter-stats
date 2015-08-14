@@ -23,8 +23,8 @@ namespace me.andburn.rainmeter.HDTStats
 		{
 		}
 
-		// this is for initial "parent" type, sent down inheritenace chain
-		// overidden though? 
+		// this is for initial "parent" type,
+		// sent down inheritenace chain, overidden though? 
 		internal virtual void Reload(Rainmeter.API api, ref double maxValue)
 		{
 			string type = api.ReadString("Type", "");
@@ -93,15 +93,14 @@ namespace me.andburn.rainmeter.HDTStats
 
 		internal override double Update()
 		{
-			Rainmeter.API.Log(API.LogType.Debug, "Update()");
+			//Rainmeter.API.Log(API.LogType.Debug, "Update()");
 			summary = StatsDB.RankedSummary(Path, Server);
-
 			return GetValue(Type);
 		}
 
 		internal double GetValue(MeasureType type)
 		{
-			Rainmeter.API.Log(API.LogType.Debug, "GetValue(): type=" + type);
+			//Rainmeter.API.Log(API.LogType.Debug, "GetValue(): type=" + type);
 			switch(type)
 			{
 				case MeasureType.Rank:

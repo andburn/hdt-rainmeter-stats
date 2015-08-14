@@ -26,7 +26,7 @@ namespace me.andburn.rainmeter.HDTStats
 		private static DateTime LastRun;
 
 		public static SeasonSummary RankedSummary(string path, string server) {
-			Rainmeter.API.Log(Rainmeter.API.LogType.Notice, "RankedSummary()");
+			//Rainmeter.API.Log(Rainmeter.API.LogType.Notice, "RankedSummary()");
 			try
 			{
 				// check if path and server are valid
@@ -79,7 +79,7 @@ namespace me.andburn.rainmeter.HDTStats
 			var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
 			FirstOfMonth = new DateTime(now.Year, now.Month, 1);
 			LastOfMonth = new DateTime(now.Year, now.Month, daysInMonth);
-			StartOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0); // TODO: check this is today!
+			StartOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
 			EndOfToday = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
 			TotalWon = 0;
 			TotalLost = 0;
@@ -87,7 +87,8 @@ namespace me.andburn.rainmeter.HDTStats
 			LostToday = 0;
 		}
 
-		// TODO: is this used, enforces delay so db file isn't continally in use
+		// TODO: this isn't used anywhere ATM
+		//   enforces delay so db file isn't continally in use, interfers with rainmeter
 		public static bool IntervalHasLapsed()
 		{
 			if(LastRun == null)
