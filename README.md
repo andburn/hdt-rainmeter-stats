@@ -7,6 +7,7 @@ A plugin for [Rainmeter](http://www.rainmeter.net) to display Hearthstone ranked
 For efficiency the plugin uses the parent/child model of rainmeter plugin development. There are five measure types that can be used:
 
 1. **Rank**: your current rank
+- **HighestRank**: your highest rank this season
 - **Won**: overall ranked wins this season/month
 - **Lost**: overall ranked losses this season/month
 - **WonToday**: number of ranked wins today

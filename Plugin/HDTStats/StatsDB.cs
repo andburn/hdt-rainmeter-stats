@@ -120,6 +120,7 @@ namespace me.andburn.rainmeter.HDTStats
 
 		private static SeasonSummary Summarize(List<DeckStats> stats)
 		{
+			int highRank = -1;
 			GameStats latest = new GameStats();
 			latest.StartTime = DateTime.Now.AddMonths(-1);
 
@@ -134,11 +135,16 @@ namespace me.andburn.rainmeter.HDTStats
 						{
 							latest = game;
 						}
+						// TODO: not sure what happens with legend ranks?
+						if(game.Rank < highRank || highRank <= 0)
+						{
+							highRank = game.Rank;
+						}
 					}
 				}
 			}
 
-			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, WonToday, LostToday);
+			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, WonToday, LostToday, highRank);
 		}
 
 		private static bool IsOnThisServer(GameStats g)

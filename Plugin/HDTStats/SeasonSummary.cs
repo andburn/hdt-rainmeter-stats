@@ -7,8 +7,9 @@ namespace me.andburn.rainmeter.HDTStats
 	public class SeasonSummary
 	{
 		public int Rank { get; set; }
+		public int HighestRank { get; set; }
 		public int Won { get; set; }
-		public int Lost { get; set; }		
+		public int Lost { get; set; }
 		public int WonToday { get; set; }
 		public int LostToday { get; set; }
 
@@ -19,15 +20,17 @@ namespace me.andburn.rainmeter.HDTStats
 			WonToday = 0;
 			LostToday = 0;
 			Rank = -1; // TODO: don't like this
+			HighestRank = -1; // TODO: don't like this
 		}
 
-		public SeasonSummary(int won, int lost, int rank, int wonToday, int lostToday)
+		public SeasonSummary(int won, int lost, int rank, int wonToday, int lostToday, int highRank)
 		{
 			Won = won;
 			Lost = lost;
 			Rank = rank;
 			WonToday = wonToday;
 			LostToday = lostToday;
+			HighestRank = highRank;
 		}
 	}
 }

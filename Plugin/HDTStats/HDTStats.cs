@@ -14,7 +14,8 @@ namespace me.andburn.rainmeter.HDTStats
 			Won,
 			Lost,
 			WonToday,
-			LostToday
+			LostToday,
+			HighestRank
 		}
 
 		internal MeasureType Type = MeasureType.Rank;
@@ -45,6 +46,9 @@ namespace me.andburn.rainmeter.HDTStats
 			case "losttoday":
 				Type = MeasureType.LostToday;
 				break;
+			case "highestrank":
+				Type = MeasureType.HighestRank;
+				break;	
 			default:
 				API.Log(API.LogType.Error, "Type=" + type + " is not valid");
 				break;
@@ -113,6 +117,8 @@ namespace me.andburn.rainmeter.HDTStats
 					return summary.WonToday;
 				case MeasureType.LostToday:
 					return summary.LostToday;
+				case MeasureType.HighestRank:
+					return summary.HighestRank;
 				default:
 					return 0.0;
 			}
