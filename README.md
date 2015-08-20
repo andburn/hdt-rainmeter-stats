@@ -1,5 +1,7 @@
 # HDT Rainmeter Plugin
 
+[![Join the chat at https://gitter.im/andburn/hdt-rainmeter-stats](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/andburn/hdt-rainmeter-stats?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A plugin for [Rainmeter](http://www.rainmeter.net) to display Hearthstone ranked play statistics taken from [Heathstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker). The plugin is intended to provide a season summary and your current rank. There is also a sample skin to illustrate using the plugin's measures. Download the [latest release](https://github.com/andburn/hdt-rainmeter-stats/releases/latest) which includes the skin and plugin as a rainmeter installer package.
 
 ![Sample Skin](http://i.imgur.com/qrcBknh.png)
