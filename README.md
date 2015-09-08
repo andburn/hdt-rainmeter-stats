@@ -52,4 +52,5 @@ ParentName=mRank
 Type=LostToday
 ```
 
-**NOTE**: *You need to have [Heathstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) installed and be using it to track your games in order for this plugin to work properly.*
+**NOTE**: *You need to have [Heathstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) installed and be using it to track your games in order for this plugin to work properly.
+Errors in rank will happen, this is a [Heathstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) problem and not to do with this plugin.*
