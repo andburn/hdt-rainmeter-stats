@@ -33,4 +33,10 @@ namespace me.andburn.rainmeter.HDTStats.Enums
 		CHINA
 	}
 
+	public enum Format
+	{
+		All,
+		Standard,
+		Wild
+	}
 }

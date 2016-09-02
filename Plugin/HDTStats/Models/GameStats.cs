@@ -7,7 +7,8 @@ namespace me.andburn.rainmeter.HDTStats.Models
 {
 	public class GameStats
 	{		
-		public Guid GameId;
+		public Guid GameId { get; set; }
+		public Format? Format { get; set; }
 		public string PlayerHero { get; set; }
 		public GameMode GameMode { get; set; }
 		public GameResult Result { get; set; }
