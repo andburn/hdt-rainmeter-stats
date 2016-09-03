@@ -71,6 +71,7 @@ namespace me.andburn.rainmeter.HDTStats
 
 		internal string Path;
 		internal string Server;
+		internal string Format;
 
 		private SeasonSummary summary;
 
@@ -93,12 +94,13 @@ namespace me.andburn.rainmeter.HDTStats
 
 			Path = api.ReadString("Path", "");
 			Server = api.ReadString("Server", "");
+			Format = api.ReadString("Format", "");
 		}
 
 		internal override double Update()
 		{
 			//Rainmeter.API.Log(API.LogType.Debug, "Update()");
-			summary = StatsDB.RankedSummary(Path, Server);
+			summary = StatsDB.RankedSummary(Path, Server, Format);
 			return GetValue(Type);
 		}
 

@@ -15,6 +15,7 @@ namespace me.andburn.rainmeter.HDTStats
 
 		private static string DBPath;
 		private static Region Server;
+		private static Format Format;
 		private static int TotalWon;
 		private static int TotalLost;
 		private static int WonToday;
@@ -25,18 +26,18 @@ namespace me.andburn.rainmeter.HDTStats
 		private static DateTime EndOfToday;
 		private static DateTime LastRun;
 
-		public static SeasonSummary RankedSummary(string path, string server) {
+		public static SeasonSummary RankedSummary(string path, string server, string format) {
 			//Rainmeter.API.Log(Rainmeter.API.LogType.Notice, "RankedSummary()");
 			try
 			{
-				// check if path and server are valid
-				Validate(path, server);
+				// check if params are valid
+				Validate(path, server, format);
 				// setup up initial state
 				Initialize();
 				// load stats from file
 				List<DeckStats> data = Load();
-				// return the summary from loaded data
-				return Summarize(data);
+				// return the summary from loaded data that matches format
+				return Summarize(data);			
 			} 
 			catch(Exception e)
 			{
@@ -46,9 +47,22 @@ namespace me.andburn.rainmeter.HDTStats
 		}
 
 		// Set DBPath and Server to params or default values
-		private static void Validate(string path, string server)
+		private static void Validate(string path, string server, string format)
 		{
-			var region = String.IsNullOrEmpty(server) ? "" : server.ToLowerInvariant();
+			var rankedFormat = string.IsNullOrEmpty(format) ? "" : format.ToLowerInvariant().Trim();
+			switch(rankedFormat)
+			{
+				case "wild":
+					Format = Format.Wild;
+					break;
+				case "standard":
+				default:
+					Format = Format.Standard;
+					break;				
+			}
+
+
+			var region = string.IsNullOrEmpty(server) ? "" : server.ToLowerInvariant().Trim();
 			switch(region)
 			{
 				case "eu": 
@@ -61,7 +75,8 @@ namespace me.andburn.rainmeter.HDTStats
 				default:
 					Server = Region.US; break;
 			}
-			if(!String.IsNullOrEmpty(path) && Directory.Exists(path))
+
+			if(!string.IsNullOrEmpty(path) && Directory.Exists(path))
 			{
 				DBPath = path;
 			}
@@ -128,7 +143,7 @@ namespace me.andburn.rainmeter.HDTStats
 			{
 				foreach(var game in deck.Games)
 				{
-					if(IsRanked(game) && IsThisSeason(game) && IsOnThisServer(game))
+					if(IsRanked(game) && IsThisSeason(game) && IsOnThisServer(game) && IsThisFormat(game))
 					{
 						AddGame(game, IsToday(game));
 						if(IsLatest(latest, game))
@@ -136,6 +151,7 @@ namespace me.andburn.rainmeter.HDTStats
 							latest = game;
 						}
 						// TODO: not sure what happens with legend ranks?
+						// QU: should this be current rank or highest rank?
 						if(game.Rank < highRank || highRank <= 0)
 						{
 							highRank = game.Rank;
@@ -143,8 +159,7 @@ namespace me.andburn.rainmeter.HDTStats
 					}
 				}
 			}
-
-			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, WonToday, LostToday, highRank);
+			return new SeasonSummary(TotalWon, TotalLost, latest.Rank, WonToday, LostToday, highRank);			
 		}
 
 		private static bool IsOnThisServer(GameStats g)
@@ -155,6 +170,11 @@ namespace me.andburn.rainmeter.HDTStats
 		private static bool IsRanked(GameStats g)
 		{
 			return g.GameMode == GameMode.Ranked;
+		}
+
+		private static bool IsThisFormat(GameStats g)
+		{
+			return g.Format == Format;
 		}
 
 		private static bool IsThisSeason(GameStats g)
