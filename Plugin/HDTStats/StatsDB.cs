@@ -92,8 +92,8 @@ namespace me.andburn.rainmeter.HDTStats
 		private static void Initialize() {
 			var now = DateTime.Now;
 			var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
-			FirstOfMonth = new DateTime(now.Year, now.Month, 1);
-			LastOfMonth = new DateTime(now.Year, now.Month, daysInMonth);
+			FirstOfMonth = new DateTime(now.Year, now.Month, 1, 0, 0, 0);
+			LastOfMonth = new DateTime(now.Year, now.Month, daysInMonth, 23, 59, 59);
 			StartOfToday = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
 			EndOfToday = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
 			TotalWon = 0;
