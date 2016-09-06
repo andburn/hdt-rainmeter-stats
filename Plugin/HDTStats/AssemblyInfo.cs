@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyCopyright("© 2015 - andburn")]
-[assembly: AssemblyVersion("0.0.2.0")]
+[assembly: AssemblyCopyright("© 2016 - andburn")]
+[assembly: AssemblyVersion("1.2.0.0")]
 
 // Do not change the entries below!
 #if X64
